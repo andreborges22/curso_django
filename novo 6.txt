@@ -1,0 +1,1 @@
+Modelagem ok. Um aluno pode ter várias notas. O lado N recebe a chave, por isso o id do aluno foi para tabela notas. Parabéns
