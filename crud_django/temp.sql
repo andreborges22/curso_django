@@ -1,0 +1,1 @@
+update aluno_sexo set descricao = 'Não informado' where id = 1
