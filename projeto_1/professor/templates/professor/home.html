@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Módulo Professor - SISIFBA{{ block.super }}{% endblock %}
+{% block content %}
+  <body>
+    {% for message in messages %}
+            <div class = "alert alert-primary" role="alert">                    
+                {{ message }}
+            </div>                
+      {% endfor %}
+    <h1>Professores</h1>
+    <hr>
+    {% for professor in professores %}
+            {{professor.nome}}
+            <br>
+    {% endfor %}
+    <form>
+    </form>
+  </body>
+</html>
+{% endblock %}

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  </head>
+<body>
+
+<h1>SISIFBA - Sistema Acadêmico</h1>
+
+<nav>   
+    <li><a href="{% url 'home' %}">Home</a></li>    
+    <li><a href="{% url 'home_aluno' %}">Módulo Aluno</a></li>    
+    <li><a href="{% url 'home_professor' %}">Módulo Professor</a></li>
+    <li><a href="{% url 'home_curso' %}">Módulo Curso</a></li>
+    <li> <a href="{% url 'aluno-list' %}">API Alunos</a></li>    
+     
+</nav>
+
+<hr>
+{% for message in messages %}
+  <div class = "alert alert-primary" role="alert">                    
+      {{ message }}
+  </div>                
+{% endfor %}
+{% if erro %}
+    <p style="color:red">{{ erro }}</p>
+{% endif %}
+{% block content %}
+{% endblock %}
+
+</body>
+</html>

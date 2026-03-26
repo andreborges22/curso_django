@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Módulo Aluno - SISIFBA{{ block.super }}{% endblock %}
+{% block content%}
+{{pessoa.id}}-{{pessoa.nome}}
+    <form action="{% url 'delete' aluno.id %}" method="POST">
+        {% csrf_token %}
+        <input type="text" name="nome" value="{{pessoa.nome}}">
+        <button type="submit">deletar</button>
+    </form>
+{% endblock %}
