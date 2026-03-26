@@ -1,6 +1,9 @@
-from django.shortcuts import render,redirect
+# importando objetos render e redirect, usados nos métodos
+from django.shortcuts import render, redirect
+# importando httpresponse, responsável por imprimir mensagens na tela
 from django.http import HttpResponse
-from .models import Aluno,Sexo
+# importando models que são usados para acesso ao banco
+from .models import Aluno, Sexo
 
 # Create your views here.
 
@@ -8,67 +11,72 @@ from .models import Aluno,Sexo
 
 
 def home(request):
-    # return HttpResponse("Oi")
-    #atribuindos todos os alunos do banco de dados à variável alunos
+    # atribuindos todos os alunos do banco de dados à variável alunos
     alunos = Aluno.objects.all()
-    #atribuindos todos os sexos do banco de dados à variável sexos
+    # atribuindos todas as descricoes de sexo do banco de dados à variável sexos
     sexos = Sexo.objects.all()
-    # retorna a renderização da home do aluno juntamente com os alunos do banco
-    return render(request, 'aluno/home.html',{
-        'alunos':alunos,
-        'sexos':sexos
-        })  
+    # retorna a renderização da home do aluno juntamente com os alunos e os sexcos
+    return render(request, 'aluno/home.html', {
+        'alunos': alunos,
+        'sexos': sexos
+    })
 
 # método para criar um aluno
+
+
 def cadastrar(request):
-    # resgatando o nome enviado via formulario
-    nome =  request.POST.get("nome")  
+    # resgatando os dados enviado via formulario
+    nome = request.POST.get("nome")
     email = request.POST.get("email")
-    sexo = request.POST.get("sexo")
+    sexo_id = request.POST.get("sexo")
     telefone = request.POST.get("telefone")
     endereco = request.POST.get("endereco")
-    # criando um objeto aluno
     # iniciando tratamento de exceção
     try:
+        # criando um objeto aluno
         Aluno.objects.create(
-            nome = nome,
-            email = email,
-            sexo = sexo, 
-            telefone = telefone,
-            endereco = endereco)
-        # redireciona para a view
-    #Capturando uma excecao
+            # atribuindo os dados vindos do formularios ao objeto aluno
+            nome=nome,
+            email=email,
+            sexo_id=sexo_id,
+            telefone=telefone,
+            endereco=endereco)
+
+    # Capturando uma excecao
     except Exception as erro:
-        #imprimindo o erro
-        #return HttpResponse(f"Erro: {erro}")    
+        # imprimindo o erro
         print(f"Erro: {erro}")
     # redirecionando para a home
     return redirect(home)
 
-def editar(request,id):
+# método para editar um aluno
+def editar(request, id):
     try:
-        # pegando o aluno específico do banco
-        aluno = Aluno.objects.get(id=id)      
+        # presgatando do banco o aluno cujo id é igual ao id enviado via template
+        aluno = Aluno.objects.get(id=id)
         # pegando todos os sexos do banco
-        sexos = Sexo.objects.all() 
+        sexos = Sexo.objects.all()
         # renderizando a pagina aluno/update.html juntamente com o formulario preenchido com os dados do aluno a ser atualizado
         return render(request, "aluno/editar.html", {
             "aluno": aluno,
-            "sexos":sexos
-            })
+            "sexos": sexos
+        })
+    # capturando excecao e printando na tela
     except Exception as erro:
         print(f"Erro: {erro}")
-    
-def update(request,id):
+
+
+# método para atualizar um aluno
+def update(request, id):
     # resgatando dados do formulario da página editar
-    nome =  request.POST.get("nome")  
+    nome = request.POST.get("nome")
     email = request.POST.get("email")
     sexo_id = request.POST.get("sexo")
     telefone = request.POST.get("telefone")
     endereco = request.POST.get("endereco")
     try:
-        # resgatando o aluno do banco
-        aluno = Aluno.objects.get(id = id)
+        # resgatando o aluno do banco que esta sendo editado
+        aluno = Aluno.objects.get(id=id)
         # atualizando os dados do banco com os dados vindos do formulário
         aluno.nome = nome
         aluno.email = email
@@ -77,15 +85,17 @@ def update(request,id):
         aluno.endereco = endereco
         # salvando os novos dados no banco
         aluno.save()
+    # capturando exceção
     except Exception as erro:
         print(f"Erro: {erro}")
     # redirecionando para a home
     return redirect(home)
 
-def excluir(request,id):
+# método para excluir um aluno
+def excluir(request, id):
     try:
         # pegar o aluno específico do banco
-        aluno = Aluno.objects.get(id = id)
+        aluno = Aluno.objects.get(id=id)
         # apagar do banco
         aluno.objects.delete()
         # redirecionar para a home
