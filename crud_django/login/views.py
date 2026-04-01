@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,logout
 from django.contrib.auth import login as login_django
 
+
 # Create your views here.
 
 
@@ -17,8 +18,8 @@ def login(request):
     senha = request.POST.get('senha')
 
     try:
-        user = authenticate (username=nome, password = senha)
-        if user:
+        user = authenticate(username=nome, password = senha)
+        if user:            
             login_django(request,user)
             return redirect('core:home')
         else:
