@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from .models import Aluno, Sexo
 # importando o objeto messages, para interação na tela
 from django.contrib import messages
-
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -17,7 +17,7 @@ from django.contrib import messages
 def home_aluno(request):
     if not request.user.is_authenticated:
         return redirect('login:home')
-    else:        
+    else:
         # atribuindos todos os alunos do banco de dados à variável alunos
         alunos = Aluno.objects.all()
         # atribuindos todas as descricoes de sexo do banco de dados à variável sexos
@@ -29,19 +29,17 @@ def home_aluno(request):
         })
 
 
+@login_required(login_url='/login/')
 def listar(request):
-    if not request.user.is_authenticated:
-        return redirect('login:home')
-    else:
-        # atribuindos todos os alunos do banco de dados à variável alunos
-        alunos = Aluno.objects.all()
-        # atribuindos todas as descricoes de sexo do banco de dados à variável sexos
-        sexos = Sexo.objects.all()
-        # retorna a renderização da home_aluno do aluno juntamente com os alunos e os sexcos
-        return render(request, 'aluno/listar.html', {
-            'alunos': alunos,
-            'sexos': sexos
-        })
+    # atribuindos todos os alunos do banco de dados à variável alunos
+    alunos = Aluno.objects.all()
+    # atribuindos todas as descricoes de sexo do banco de dados à variável sexos
+    sexos = Sexo.objects.all()
+    # retorna a renderização da home_aluno do aluno juntamente com os alunos e os sexcos
+    return render(request, 'aluno/listar.html', {
+        'alunos': alunos,
+        'sexos': sexos
+    })
 
 # método para criar um aluno
 
@@ -50,13 +48,13 @@ def cadastrar(request):
     if not request.user.is_authenticated:
         return redirect('login:home')
     else:
-        # se os dados foram enviados via get    
+        # se os dados foram enviados via get
         # atribuindos todas as descricoes de sexo do banco de dados à variável sexos
         sexos = Sexo.objects.all()
         # testo o tipo da requisição
         # se for GET mostro o formulário
         if request.method == "GET":
-            return render(request, 'aluno/cadastrar.html', {            
+            return render(request, 'aluno/cadastrar.html', {
                 'sexos': sexos
             })
         # se os dados foram enviados via POST
@@ -130,7 +128,8 @@ def update(request, id):
             aluno.endereco = endereco
             # salvando os novos dados no banco
             aluno.save()
-            messages.success(request, f"Estudante {nome} editado(a) com sucesso!")
+            messages.success(
+                request, f"Estudante {nome} editado(a) com sucesso!")
             # redirecionando para a home_aluno
             return redirect('aluno:listar')
         # capturando exceção
