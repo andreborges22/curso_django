@@ -27,7 +27,7 @@
             <li><a class="dropdown-item" href="{% url 'aluno:listar' %}">Listar</a></li>
             <li><hr class="dropdown-divider"></li>            
           </ul>
-        </li>       
+        </li>              
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Módulo Professor
@@ -46,7 +46,18 @@
             <li><a class="dropdown-item" href="{% url 'login:logout' %}">Logout</a></li>            
             <li><hr class="dropdown-divider"></li>            
           </ul>          
-        </li>                     
+        </li>     
+        {% if user.is_staff %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Módulo Admin
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'usuario:cadastrar' %}">Cadastrar Usuário</a></li>              
+              <li><hr class="dropdown-divider"></li>            
+            </ul>          
+          </li>  
+        {% endif %}                 
       </ul>          
     </div>
   </div>    
