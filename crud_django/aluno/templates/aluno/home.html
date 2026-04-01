@@ -1,17 +1,10 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Módulo de Alunos</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-  </head>
-  <body>
+{% extends 'base.html' %}
+{% block title %}SISIFBA - Sistema Acadêmico{% endblock %}
+{% block content %}
+<body>
     <h1>Cadastro de Alunos</h1>
-    <!--<h1>Cadastro de Alunos</h1>-->
-    <!-- fdsfsdfsd  -->
     <hr>
-    <form action="{% url 'cadastrar_aluno' %}" method="post" class="form-control">
+    <form action="{% url 'aluno:cadastrar' %}" method="post" class="form-control">
         {% csrf_token %} 
         <label>Nome</label>
         <br>       
@@ -26,7 +19,7 @@
         <select id="sexo" name="sexo" required = "true">
                 <option value="">Informe seu sexo</option>
                     {% for sexo in sexos %}
-                        <option value="{{ sexo.descricao }}">
+                        <option value="{{ sexo.id }}">
                             {{ sexo.descricao }}
                         </option>
                     {% endfor %}
@@ -45,8 +38,7 @@
         <br>
     </form>
     <hr>
-    <h1>Lista de Alunos</h1>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>    
+    <h1>Lista de Alunos</h1>    
    <table class="table">
     <thead>
         <tr>
@@ -70,11 +62,12 @@
                         <td>{{aluno.sexo}}</td>
                         <td>{{aluno.telefone}}</td>
                         <td>{{aluno.endereco}}</td>
-                        <td><a href="{% url 'editar_aluno' aluno.id %}"><button name="editar" id="editar" class="btn btn-success">Editar</button></a></td>
-                        <td><a href="{% url 'excluir_aluno' aluno.id %}"><button name="excluir" id="excluir" class="btn btn-danger">Excluir</button></a></td>
+                        <td><a href="{% url 'aluno:editar' aluno.id %}"><button name="editar" id="editar" class="btn btn-success">Editar</button></a></td>
+                        <td><a href="{% url 'aluno:excluir' aluno.id %}"><button name="excluir" id="excluir" class="btn btn-danger">Excluir</button></a></td>
                     </tr>
               {% endfor %}
             </tr>        
         </tbody>
-    </table>
-</html>
+    </table>  
+{% endblock %}
+

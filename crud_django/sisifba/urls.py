@@ -16,11 +16,22 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from . import views
+
+app_name = 'aluno'
 
 #roteamento do sistema
 urlpatterns = [
+    # se nao digitar nada, vai para raiz do projeto
+    path('', views.home, name='home_sisifba'), 
+    #ao digitar /login
+    path('login/',include('login.urls')),
+    #ao digitar /aluno   
+    path('usuario/',include('usuario.urls')),
     #ao digitar /admin
     path('admin/', admin.site.urls), 
     #ao digitar /aluno
     path('aluno/',include('aluno.urls')),
+    #ao digitar /core           
+    path('core/',include('core.urls')),   
 ]

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}SISIFBA - Sistema Acadêmico{% endblock %}
+{% block content %}
+<body>
+    <h1>Cadastro de Usuários</h1>     
+    <hr>       
+    <form action="{% url 'usuario:cadastrar' %}" method="post" class="form-control">
+        {% csrf_token %} 
+        <label>Nome</label>
+        <br>       
+        <input name="nome" id="nome" required = "true" placeholder="Informe o nome">
+        <br>
+        <label>email</label>
+        <br>
+        <input type="email" name="email" id="email" placeholder="Informe um email válido">
+        <br>
+        <label>senha</label>
+        <br>
+        <input name="senha" id="senha" type="password"> 
+        <br>   
+        <button type="submit" class="btn btn-success">Salvar</button>
+        <br>
+    </form>      
+{% endblock %}
+
