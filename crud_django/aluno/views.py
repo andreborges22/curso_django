@@ -78,11 +78,11 @@ def cadastrar(request):
                 aluno.save()
                 messages.success(
                     request, f"Estudante {nome} cadastrado(a) com sucesso!")
+                return redirect('aluno:home_aluno')
             # Capturando uma excecao
             except Exception as erro:
                 # imprimindo o erro
-                messages.success(
-                    request, f"Estudante {nome} cadastrado(a) com sucesso!")
+                messages.error(request, f"Erro: {erro}")
                 return redirect('aluno:home_aluno')
 
 
@@ -150,7 +150,7 @@ def excluir(request, id):
             # apagar do banco
             aluno.delete()
             # redirecionando para a home_aluno
-            messages.success(
+            messages.warning(
                 request, f"Estudante {aluno.nome} removido(a) com sucesso!"
             )
             return redirect('aluno:home_aluno')

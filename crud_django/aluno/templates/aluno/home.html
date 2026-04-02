@@ -34,7 +34,7 @@
         <input name="endereco" id="endereco">
         <br>     
         <br>   
-        <button type="submit" class="btn btn-success">Salvar</button>
+        <button type="submit" class="btn btn-outline-success me-2">Salvar</button>
         <br>
     </form>
     <hr>
@@ -62,8 +62,9 @@
                         <td>{{aluno.sexo}}</td>
                         <td>{{aluno.telefone}}</td>
                         <td>{{aluno.endereco}}</td>
-                        <td><a href="{% url 'aluno:editar' aluno.id %}"><button name="editar" id="editar" class="btn btn-success">Editar</button></a></td>
-                        <td><a href="{% url 'aluno:excluir' aluno.id %}"><button name="excluir" id="excluir" class="btn btn-danger">Excluir</button></a></td>
+                        <td><a href="{% url 'aluno:editar' aluno.id %}"><button class="btn btn-outline-success me-2" name="editar" id="editar" type="button">Editar</button></a></td>
+                        <td><a href="{% url 'aluno:excluir' aluno.id %}"><button name="excluir" id="excluir" class="btn btn-outline-danger">Excluir</button></a></td>                        
+                        
                     </tr>
               {% endfor %}
             </tr>        
