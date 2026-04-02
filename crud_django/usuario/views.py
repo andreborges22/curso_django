@@ -1,8 +1,13 @@
+# importação referentes a renderização e redirecionamento
 from django.shortcuts import render, redirect
+# importação referentes a manipulação do usuário do django
 from django.contrib.auth.models import User
-# importando o objeto messages, para interação na tela
+# importação o objeto messages, para interação na tela
 from django.contrib import messages
+# importação referentes ao model sexo
 from aluno.models import Sexo
+# importação referentes atratamento de exceção (mensagem específica de email duplicado)
+from django.db import IntegrityError
 
 
 # Create your views here.
@@ -35,6 +40,9 @@ def cadastrar(request):
             messages.success(
                 request, f"Usuário {nome} cadastrado com sucesso")
             return redirect('usuario:home')
+        except IntegrityError:
+            messages.error(request, "Este email já está cadastrado!")
+            return redirect('aluno:home_aluno')
         except Exception as erro:
             messages.error(request, f"({erro})")
             return redirect('usuario:home')
