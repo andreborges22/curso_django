@@ -6,20 +6,53 @@
     <hr>       
     <form action="{% url 'usuario:cadastrar' %}" method="post" class="form-control">
         {% csrf_token %} 
-        <label>Nome</label>
+        <label>Nome e Sobrenome</label>
         <br>       
-        <input name="nome" id="nome" required = "true" placeholder="Informe o nome">
+        <input name="nome" id="nome" required = "true" placeholder="Informe nome e sobrenome">
         <br>
-        <label>email</label>
+        <label>Nome de Usuário</label>
+        <br>       
+        <input name="username" id="username" required = "true" placeholder="Informe o nome do usuário">
+        <br>       
+        <label>Email</label>
         <br>
-        <input type="email" name="email" id="email" placeholder="Informe um email válido">
+        <input type="email" name="email" required = "true" id="email" placeholder="Informe um email válido">
         <br>
-        <label>senha</label>
+        <label>Senha</label>
         <br>
-        <input name="senha" id="senha" type="password"> 
+        <input name="senha" id="senha" type="password" required = "true"> 
         <br>   
         <button type="submit" class="btn btn-success">Salvar</button>
         <br>
     </form>      
+    <hr>
+    <h1>Lista de Usuários</h1>    
+   <table class="table">
+    <thead>
+        <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Nome</th>   
+        <th scope="col">Usuário</th>     
+        <th scope="col">Email</th>                
+        <th scope="col">Editar</th>
+        <th scope="col">Deletar</th>
+        </tr>
+    </thead>
+        <tbody>
+            <tr>      
+              {% for usuario in usuarios %}  
+                    <tr>
+                        <td>{{usuario.id}}</td> 
+                        <td>{{usuario.nome}}</td>
+                        <td>{{usuario.usuario}}</td>
+                        <td>{{usuario.email}}</td>
+                        <td><a href="{% url 'usuario:editar' usuario.id %}"><button class="btn btn-outline-success me-2" name="editar" id="editar" type="button">Editar</button></a></td>
+                        <td><a href="{% url 'usuario:excluir' usuario.id %}"><button name="excluir" id="excluir" class="btn btn-outline-danger">Excluir</button></a></td>                        
+                        
+                    </tr>
+              {% endfor %}
+            </tr>        
+        </tbody>
+    </table>  
 {% endblock %}
 
