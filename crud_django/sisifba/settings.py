@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 from pathlib import Path
 from django.contrib.messages import constants as messages
 
+# usado para converter o erro do boostrap para o erro do django
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 }

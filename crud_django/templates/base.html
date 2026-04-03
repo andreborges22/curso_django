@@ -12,56 +12,59 @@
 <h1>SISIFBA - Sistema Acadêmico</h1>
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="conteiner">
-    <div class="container-fluid">    
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{% url 'home_sisifba' %}">Home</a>                  
-          </li>                
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Módulo Aluno
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{% url 'aluno:cadastrar' %}">Cadastrar</a></li>            
-              <li><a class="dropdown-item" href="{% url 'aluno:listar' %}">Listar</a></li>
-              <li><hr class="dropdown-divider"></li>            
-            </ul>
-          </li>              
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Módulo Professor
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{% url 'aluno:cadastrar' %}">Cadastrar</a></li>
-              <li><a class="dropdown-item" href="{% url 'aluno:listar' %}">Listar</a></li>
-              <li><hr class="dropdown-divider"></li>            
-            </ul>          
-          </li>  
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Usuário {{user.username}}
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{% url 'login:logout' %}">Logout</a></li>            
-              <li><hr class="dropdown-divider"></li>            
-            </ul>          
-          </li>     
-          {% if user.is_staff %}
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Módulo Admin
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{% url 'usuario:cadastrar' %}">Cadastrar Usuário</a></li>              
-                <li><hr class="dropdown-divider"></li>            
-              </ul>          
-            </li>  
-          {% endif %}                 
-        </ul>          
-      </div>
-    </div>   
+  <div class="container-fluid">    
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <!-- ESQUERDA -->
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url 'home_sisifba' %}">Home</a>                  
+        </li>                
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+            Módulo Aluno
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'aluno:cadastrar' %}">Cadastrar</a></li>            
+            <li><a class="dropdown-item" href="{% url 'aluno:listar' %}">Listar</a></li>
+          </ul>
+        </li>              
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+            Módulo Professor
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'professor:home' %}">Cadastrar</a></li>
+            <li><a class="dropdown-item" href="{% url 'professor:listar' %}">Listar</a></li>
+          </ul>          
+        </li>  
+
+        {% if user.is_staff %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+            Módulo Admin
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'usuario:cadastrar' %}">Cadastrar Usuário</a></li>              
+          </ul>          
+        </li>  
+        {% endif %}
+
+      </ul>
+
+      <!-- DIREITA -->
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+            Usuário {{ user.username }}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="{% url 'login:logout' %}">Logout</a></li>            
+          </ul>          
+        </li>
+      </ul>
+    </div>
   </div> 
 </nav>
 {% for message in messages %}

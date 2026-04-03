@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from . import views
-
+#namespace do app
 app_name = 'sisifba'
 
 #roteamento do sistema
@@ -32,6 +32,8 @@ urlpatterns = [
     path('admin/', admin.site.urls), 
     #ao digitar /aluno
     path('aluno/',include('aluno.urls')),
+    #ao digitar /aluno
+    path('professor/',include('professor.urls')),
     #ao digitar /core           
     path('core/',include('core.urls')),   
 ]
