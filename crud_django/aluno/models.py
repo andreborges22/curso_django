@@ -12,7 +12,7 @@ class Sexo(models.Model):
         return self.descricao
 # modelagem da classe Aluno
 
-
+#model aluno
 class Aluno(models.Model):
     #definicao dos campos para armazenar os dados do Aluno
     #campo nome do tipo texto

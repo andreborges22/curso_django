@@ -3,6 +3,6 @@ from django.contrib import admin
 from .models import Aluno,Sexo
 
 # Register your models here.
-#registrando o model Aluno no admin
+#registrando o model Aluno e esexo no admin
 admin.site.register(Aluno)
 admin.site.register(Sexo)
