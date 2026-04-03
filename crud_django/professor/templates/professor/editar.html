@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title %}SISIFBA - Sistema Acadêmico{% endblock %}
+{% block content %}
+  <body>
+    <h1>Edição de Professores</h1>
+    <hr>
+    <form action="{% url 'professor:update' professor.id %}" method="post" class="form-control">
+        {% csrf_token %} 
+        <label>Nome</label>
+        <br>       
+        <input name="nome" id="nome" value = "{{professor.nome}}" required = "true" placeholder="Informe o nome">
+        <br>
+        <label>email</label>
+        <br>
+        <input type="email" name="email" id="email" value = "{{professor.email}}" placeholder="Informe um email válido">
+        <br>
+        <label>Titulação</label>
+        <br>
+        <select id="titulacao" name="titulacao" required = "true">
+                <option value="">Informe o maior título</option>
+                    {% for titulo in titulos %}
+                        <option value="{{ titulo.id }}"{% if titulo == professor.titulacao %}selected{% endif %}>
+                            {{ titulo.descricao }}
+                        </option>
+                    {% endfor %}
+        </select> 
+        <br>  
+        <label>Sexo</label>
+        <br>               
+        <select id = "sexo" name="sexo" required>
+            <option value="">Selecione um sexo</option>
+                {% for sexo in sexos %}
+                    <option value="{{ sexo.id }}" {% if sexo == professor.sexo %}selected{% endif %}>
+                        {{ sexo.descricao }}
+                    </option>
+                {% endfor %}
+
+        </select>
+        <br>
+        <label>Telefone</label>
+        <br>
+        <input name="telefone" id="telefone" value = "{{professor.telefone}}">
+        <br>     
+        <label>Endereço</label>
+        <br>
+        <input name="endereco" id="endereco" value = "{{professor.endereco}}">
+        <br>     
+        <br>   
+        <button type="submit" class="btn btn-outline-success me-2">Salvar</button>    
+        <a href="{% url 'professor:home' %}" class="btn btn-outline-danger">Cancelar</a>                   
+        <br>
+    </form>
+    <hr>    
+</body>
+{% endblock %}

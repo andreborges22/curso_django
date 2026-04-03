@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}SISIFBA - Sistema Acadêmico{% endblock %}
+{% block content %}
+  <body>
+    <h1>Edição de Alunos</h1>
+    <hr>
+    <form action="{% url 'aluno:excluir' aluno.id %}" method="post" class="form-control">
+        {% csrf_token %} 
+        <label>Nome</label>
+        <br>       
+        <input name="nome" id="nome" value = "{{aluno.nome}}" required = "true" placeholder="Informe o nome">
+        <br>
+        <label>email</label>
+        <br>
+        <input type="email" name="email" id="email" value = "{{aluno.email}}" placeholder="Informe um email válido">
+        <br>
+        <label>Sexo</label>
+        <br>               
+        <select id = "sexo" name="sexo" required>
+            <option value="">Selecione um sexo</option>
+                {% for sexo in sexos %}
+                    <option value="{{ sexo.id }}" {% if sexo == aluno.sexo %}selected{% endif %}>
+                        {{ sexo.descricao }}
+                    </option>
+                {% endfor %}
+
+        </select>
+        <br>
+        <label>Telefone</label>
+        <br>
+        <input name="telefone" id="telefone" value = "{{aluno.telefone}}">
+        <br>     
+        <label>Endereço</label>
+        <br>
+        <input name="endereco" id="endereco" value = "{{aluno.endereco}}">
+        <br>     
+        <br>   
+        <button type="submit" class="btn btn-danger">Excluir</button>    
+        <a href="{% url 'aluno:home' %}" class="btn btn-danger">Cancelar</a>                   
+        <br>
+    </form>
+    <hr>    
+</body>
+{% endblock %}

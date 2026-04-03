@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}SISIFBA - Sistema Acadêmico{% endblock %}
+{% block content %}
+<body>
+    <h1>Cadastro de Alunos</h1>     
+    <hr>       
+    <form action="{% url 'aluno:cadastrar' %}" method="post" class="form-control">
+        {% csrf_token %} 
+        <label>Nome</label>
+        <br>       
+        <input name="nome" id="nome" required = "true" placeholder="Informe o nome">
+        <br>
+        <label>email</label>
+        <br>
+        <input type="email" name="email" id="email" placeholder="Informe um email válido">
+        <br>
+        <label>sexo</label>
+        <br>
+        <select id="sexo" name="sexo" required = "true">
+                <option value="">Informe seu sexo</option>
+                    {% for sexo in sexos %}
+                        <option value="{{ sexo.id }}">
+                            {{ sexo.descricao }}
+                        </option>
+                    {% endfor %}
+        </select> 
+        <br>
+        <label>Telefone</label>
+        <br>
+        <input name="telefone" id="telefone">
+        <br>     
+        <label>Endereço</label>
+        <br>
+        <input name="endereco" id="endereco">
+        <br>     
+        <br>   
+        <button type="submit" class="btn btn-outline-success me-2">Salvar</button>
+        <br>
+    </form>      
+{% endblock %}
+

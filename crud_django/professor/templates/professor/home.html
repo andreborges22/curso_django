@@ -2,7 +2,7 @@
 {% block title %}SISIFBA - Sistema Acadêmico{% endblock %}
 {% block content %}
 <body>
-    <h1>Cadastro de Alunos</h1>
+    <h1>Cadastro de Professor</h1>
     <hr>
     <form action="{% url 'professor:cadastrar' %}" method="post" class="form-control">
         {% csrf_token %} 
@@ -15,11 +15,12 @@
         <select id="titulacao" name="titulacao" required = "true">
                 <option value="">Informe o maior título</option>
                     {% for titulo in titulos %}
-                        <option value="{{ sexo.id }}">
+                        <option value="{{ titulo.id }}">
                             {{ titulo.descricao }}
                         </option>
                     {% endfor %}
-        </select>       
+        </select> 
+        <br>      
         <label>email</label>
         <br>
         <input type="email" name="email" id="email" placeholder="Informe um email válido">
@@ -64,16 +65,16 @@
     </thead>
         <tbody>
             <tr>      
-              {% for aluno in alunos %}  
+              {% for professor in professores %}  
                     <tr>
-                        <td>{{aluno.id}}</td> 
-                        <td>{{aluno.nome}}</td>
-                        <td>{{aluno.email}}</td>
-                        <td>{{aluno.sexo}}</td>
-                        <td>{{aluno.telefone}}</td>
-                        <td>{{aluno.endereco}}</td>
-                        <td><a href="{% url 'professor:editar' aluno.id %}"><button name="editar" id="editar" class="btn btn-success">Editar</button></a></td>
-                        <td><a href="{% url 'professor:excluir' aluno.id %}"><button name="excluir" id="excluir" class="btn btn-danger">Excluir</button></a></td>
+                        <td>{{professor.id}}</td> 
+                        <td>{{professor.nome}}</td>
+                        <td>{{professor.email}}</td>
+                        <td>{{professor.sexo}}</td>
+                        <td>{{professor.telefone}}</td>
+                        <td>{{professor.titulacao}}</td>
+                        <td><a href="{% url 'professor:editar' professor.id %}"><button name="editar" id="editar" class="btn btn-outline-success">Editar</button></a></td>
+                        <td><a href="{% url 'professor:excluir' professor.id %}"><button name="excluir" id="excluir" class="btn btn-outline-danger">Excluir</button></a></td>
                     </tr>
               {% endfor %}
             </tr>        
