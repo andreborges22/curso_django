@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block title %}Módulo Curso - SISIFBA{{ block.super }}{% endblock %}
+{% block content %}  
+<body>
+    <h1>Cadastro de Cursos</h1>     
+    <hr>       
+    <form action="{% url 'curso:cadastrar' %}" method="post" class="form-control">
+        {% csrf_token %} 
+        <label>Nome</label>
+        <br>       
+        <input name="nome" id="nome" required = "true" placeholder="Informe o nome">
+        <br>
+        <label>Carga Horária</label>
+        <br>
+        <input type="number" name="carga_horaria" id="carga_horaria" placeholder="Informe a carga horária do curso">
+        <br>
+        <label>Professor</label>
+        <br>
+        <select id="professor" name="professor" required = "true">
+                <option value="">Informe o professor</option>
+                    {% for professor in professores %}
+                        <option value="{{ professor.id }}">
+                            {{ professor.nome }}
+                        </option>
+                    {% endfor %}
+        </select> 
+        <br>          
+        <br>   
+        <button type="submit" class="btn btn-outline-success me-2">Salvar</button>
+        <br>
+    </form>      
+<h1>Lista de Cursos</h1>   
+    <form method="GET" class="mb-3">
+        <div class="input-group">
+            <input 
+            type="text" 
+            name="q" 
+            class="form-control" 
+            placeholder="Buscar por nome ou email..."
+            value="{{ query|default:'' }}"
+            >
+            <button class="btn btn-primary" type="submit">Buscar</button>
+        </div>
+    </form> 
+    {% if cursos %}
+        <table class="table">
+            <thead>
+                <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nome</th>        
+                <th scope="col">Carga Horária</th>
+                <th scope="col">Professor</th>        
+                <th scope="col">Editar</th>
+                <th scope="col">Deletar</th>
+                </tr>
+            </thead>
+                <tbody>
+                    <tr>      
+                    {% for curso in cursos %}  
+                            <tr>
+                                <td>{{curso.id}}</td> 
+                                <td>{{curso.nome}}</td>
+                                <td>{{curso.carga_horaria}}</td>
+                                <td>{{curso.professor}}</td>
+                                <td><a href="{% url 'curso:editar' curso.id %}"><button name="editar" id="editar" class="btn btn-outline-success">Editar</button></a></td>
+                                <td><a href="{% url 'curso:excluir' curso.id %}"><button name="excluir" id="excluir" class="btn btn-outline-danger">Excluir</button></a></td>
+                            </tr>
+                    {% endfor %}
+                    </tr>        
+                </tbody>
+        </table>  
+    {% else %}
+        <div class="alert alert-warning">
+            Nenhum curso encontrado.
+        </div>
+    {% endif %}
+</body>  
+{% endblock %}

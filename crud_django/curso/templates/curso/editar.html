@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}SISIFBA - Sistema Acadêmico{% endblock %}
+{% block content %}
+<body>
+    <h1>Cadastro de Cursos</h1>     
+    <hr>       
+    <form action="{% url 'curso:update' curso.id %}" method="post" class="form-control">
+        {% csrf_token %} 
+        <label>Nome</label>
+        <br>       
+        <input name="nome" id="nome" value="{{curso.nome}}" required = "true" placeholder="Informe o nome">
+        <br>
+        <label>Carga Horária</label>
+        <br>
+        <input type="number" name="carga_horaria" id="carga_horaria" value="{{curso.carga_horaria}}"placeholder="Informe a carga horária do curso">
+        <br>
+        <label>Professor</label>
+        <br>
+        <select id="professor" name="professor" required = "true">
+                <option value="">Informe o professor</option>
+                    {% for professor in professores %}
+                    <option value="{{ professor.id }}" {% if professor == curso.professor %}selected{% endif %}>                        
+                            {{ professor.nome }}
+                        </option>
+                    {% endfor %}
+        </select> 
+        <br>          
+        <br>   
+        <button type="submit" class="btn btn-outline-success me-2">Salvar</button>
+        <br>
+    </form>      
+{% endblock %}
