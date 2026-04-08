@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 # importando httpresponse, responsável por imprimir mensagens na tela
 from django.http import HttpResponse
 # importando models que são usados para acesso ao banco
-from .models import Aluno, Sexo
+from .models import Aluno, Sexo, Curso
 # importando o objeto messages, para interação na tela
 from django.contrib import messages
 # importacao para definir que uma função só será acessível para usuarios autenticados
@@ -25,10 +25,12 @@ def home(request):
         alunos = Aluno.objects.all()
         # atribuindos todas as descricoes de sexo do banco de dados à variável sexos
         sexos = Sexo.objects.all()
+        cursos = Curso.objects.all()
         # retorna a renderização da home do aluno juntamente com os alunos e os sexcos
         return render(request, 'aluno/home.html', {
             'alunos': alunos,
-            'sexos': sexos
+            'sexos': sexos,
+            'cursos': cursos,
         })
 
 # decorator que define que a funcao irá verificar se o usuário está logado
@@ -52,6 +54,7 @@ def buscar(request):
         'alunos': alunos,
         'query': query
     })
+
 
 @login_required(login_url='/login/')
 # função para listar/buscar alunos
@@ -82,11 +85,16 @@ def cadastrar(request):
     # se os dados foram enviados via get
     # atribuindos todas as descricoes de sexo do banco de dados à variável sexos
     sexos = Sexo.objects.all()
+    cursos = Curso.objects.all()
+    # atribuindos todos os alunos do banco de dados à variável alunos
+    alunos = Aluno.objects.all()
     # testo o tipo da requisição
     # se for GET renderiza o formulário
     if request.method == "GET":
         return render(request, 'aluno/cadastrar.html', {
-            'sexos': sexos
+            'alunos':alunos,
+            'sexos': sexos,
+            'cursos': cursos,
         })
     # se os dados foram enviados via POST
     else:
@@ -94,6 +102,7 @@ def cadastrar(request):
         nome = request.POST.get("nome")
         email = request.POST.get("email")
         sexo_id = request.POST.get("sexo")
+        curso_id = request.POST.get("curso")
         telefone = request.POST.get("telefone")
         endereco = request.POST.get("endereco")
         # iniciando tratamento de exceção
@@ -104,6 +113,7 @@ def cadastrar(request):
                 nome=nome,
                 email=email,
                 sexo_id=sexo_id,
+                curso_id=curso_id,
                 telefone=telefone,
                 endereco=endereco)
             # salvando no banco
@@ -128,10 +138,13 @@ def editar(request, id):
         aluno = Aluno.objects.get(id=id)
         # pegando todos os sexos do banco
         sexos = Sexo.objects.all()
+        # pegando todos os cursos do banco
+        cursos = Curso.objects.all()
         # renderizando a pagina aluno/editar.html juntamente com o formulario preenchido com os dados do aluno a ser atualizado
         return render(request, "aluno/editar.html", {
             "aluno": aluno,
-            "sexos": sexos
+            "sexos": sexos,
+            "cursos": cursos,
         })
     # capturando excecao e printando na tela
     except Exception as erro:
@@ -148,6 +161,7 @@ def update(request, id):
     nome = request.POST.get("nome")
     email = request.POST.get("email")
     sexo_id = request.POST.get("sexo")
+    curso_id = request.POST.get("curso")
     telefone = request.POST.get("telefone")
     endereco = request.POST.get("endereco")
     try:
@@ -157,6 +171,7 @@ def update(request, id):
         aluno.nome = nome
         aluno.email = email
         aluno.sexo_id = sexo_id
+        aluno.curso_id = curso_id
         aluno.telefone = telefone
         aluno.endereco = endereco
         # salvando os novos dados no banco

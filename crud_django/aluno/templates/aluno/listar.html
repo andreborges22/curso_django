@@ -27,6 +27,7 @@
                     <th scope="col">Nome</th>        
                     <th scope="col">Email</th>
                     <th scope="col">Sexo</th>
+                    <th scope="col">Curso</th>
                     <th scope="col">Telefone</th>
                     <th scope="col">Endereço</th>
                     <th scope="col">Editar</th>
@@ -41,6 +42,7 @@
                                     <td>{{aluno.nome}}</td>
                                     <td>{{aluno.email}}</td>
                                     <td>{{aluno.sexo}}</td>
+                                    <td>{{aluno.curso}}</td>
                                     <td>{{aluno.telefone}}</td>
                                     <td>{{aluno.endereco}}</td>                            
                                     <td><a href="{% url 'aluno:editar' aluno.id %}"><button class="btn btn-outline-success me-2" name="editar" id="editar" type="button">Editar</button></a></td>
@@ -59,4 +61,3 @@
     {% endif %}
 </body>  
 {% endblock %}
-

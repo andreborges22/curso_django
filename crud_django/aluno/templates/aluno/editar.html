@@ -33,7 +33,18 @@
         <label>Endereço</label>
         <br>
         <input name="endereco" id="endereco" value = "{{aluno.endereco}}">
-        <br>     
+        <br>   
+        <label>Curso</label>
+        <br>
+         <select id="curso" name="curso" required = "true">
+                <option value="">Informe o curso</option>
+                    {% for curso in cursos %}
+                        <option value="{{ curso.id }}" {% if curso == aluno.curso %}selected{% endif %}>
+                            {{ curso.nome }}
+                        </option>
+                    {% endfor %}
+        </select>  
+        <br>  
         <br>   
         <button type="submit" class="btn btn-outline-success me-2">Salvar</button>    
         <a href="{% url 'aluno:home' %}" class="btn btn-outline-danger">Cancelar</a>                   
