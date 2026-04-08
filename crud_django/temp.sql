@@ -1,1 +1,3 @@
-update aluno_sexo set descricao = 'Não informado' where id = 1
+insert into sexo_sexo (descricao)
+select descricao from aluno_sexo;
+

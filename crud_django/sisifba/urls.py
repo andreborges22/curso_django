@@ -34,6 +34,8 @@ urlpatterns = [
     path('aluno/',include('aluno.urls')),
     #ao digitar /aluno
     path('professor/',include('professor.urls')),
+     #ao digitar /aluno
+    path('curso/',include('curso.urls')),
     #ao digitar /core           
     path('core/',include('core.urls')),   
 ]

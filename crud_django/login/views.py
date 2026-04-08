@@ -2,7 +2,9 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.models import User
+# importações para autenticar usuario e fazer logout, respectivamente
 from django.contrib.auth import authenticate,logout
+# importação para usar o login do jango
 from django.contrib.auth import login as login_django
 
 
