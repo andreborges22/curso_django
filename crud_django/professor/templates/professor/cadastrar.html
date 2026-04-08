@@ -2,14 +2,25 @@
 {% block title %}SISIFBA - Sistema Acadêmico{% endblock %}
 {% block content %}
 <body>
-    <h1>Cadastro de Alunos</h1>     
-    <hr>       
-    <form action="{% url 'aluno:cadastrar' %}" method="post" class="form-control">
+    <h1>Cadastro de Professor</h1>
+    <hr>
+    <form action="{% url 'professor:cadastrar' %}" method="post" class="form-control">
         {% csrf_token %} 
         <label>Nome</label>
         <br>       
         <input name="nome" id="nome" required = "true" placeholder="Informe o nome">
         <br>
+        <label>Titulação</label>
+        <br>
+        <select id="titulacao" name="titulacao" required = "true">
+                <option value="">Informe o maior título</option>
+                    {% for titulo in titulos %}
+                        <option value="{{ titulo.id }}">
+                            {{ titulo.descricao }}
+                        </option>
+                    {% endfor %}
+        </select> 
+        <br>      
         <label>email</label>
         <br>
         <input type="email" name="email" id="email" placeholder="Informe um email válido">
@@ -34,8 +45,65 @@
         <input name="endereco" id="endereco">
         <br>     
         <br>   
-        <button type="submit" class="btn btn-outline-success me-2">Salvar</button>
+        <button type="submit" class="btn btn-success">Salvar</button>
         <br>
-    </form>      
-{% endblock %}
+    </form>
+    <hr>
+    <body>        
+    <h1>Lista de Professores</h1>   
+    <hr> 
+        <form action="{% url 'professor:listar' %}" method="GET" class="mb-3">
+            <div class="input-group">
+                <input 
+                type="text" 
+                name="q" 
+                class="form-control" 
+                placeholder="Buscar por nome ou email..."
+                value="{{ query|default:'' }}"
+                >
+                <button class="btn btn-primary" type="submit">Buscar</button>
+            </div>
+        </form>
 
+    {% if professores %}
+        <table class="table">
+            <!-- tabela -->
+            <table class="table">
+                <thead>
+                    <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nome</th>        
+                    <th scope="col">Email</th>
+                    <th scope="col">Sexo</th>
+                    <th scope="col">Telefone</th>
+                    <th scope="col">Titulação</th>                    
+                    <th scope="col">Editar</th>
+                    <th scope="col">Deletar</th>
+                    </tr>
+                </thead>
+                    <tbody>
+                        <tr>      
+                        {% for professor in professores %}  
+                                <tr>
+                                    <td>{{professor.id}}</td> 
+                                    <td>{{professor.nome}}</td>
+                                    <td>{{professor.email}}</td>
+                                    <td>{{professor.sexo}}</td>
+                                    <td>{{professor.telefone}}</td>
+                                    <td>{{professor.titulacao}}</td>                                                             
+                                    <td><a href="{% url 'professor:editar' professor.id %}"><button class="btn btn-outline-success me-2" name="editar" id="editar" type="button">Editar</button></a></td>
+                                    <td><a href="{% url 'professor:excluir' professor.id %}"><button name="excluir" id="excluir" class="btn btn-outline-danger">Excluir</button></a></td>
+                                    
+                                </tr>
+                        {% endfor %}
+                        </tr>        
+                    </tbody>
+            </table>  
+        </table>
+    {% else %}
+        <div class="alert alert-warning">
+            Nenhum professor encontrado.
+        </div>
+    {% endif %}
+</body>  
+{% endblock %}

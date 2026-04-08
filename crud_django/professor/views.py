@@ -1,5 +1,5 @@
 # importando objetos render e redirect, usados nos métodos
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 from .models import Professor, Titulacao
 # importando models que são usados para acesso ao banco
 from professor.models import Sexo
@@ -11,28 +11,42 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 
 # Create your views here.
-#login requerido
+# login requerido
+
+
 @login_required(login_url='/login/')
 def home(request):
     # pegando os professores do banco
     professores = Professor.objects.all()
-    # pegando os titulos do banco para popular a lista de seleção de titulos 
+    # pegando os titulos do banco para popular a lista de seleção de titulos
     titulos = Titulacao.objects.all()
     # pegando as descrições de sexos do banco para popular a lista de seleção de sexo
     sexos = Sexo.objects.all()
     # renderizando a home do professor
-    return render(request,'professor/home.html',{
-            'professores':professores,
-            'titulos':titulos,
-            'sexos':sexos,
-        })
+    return render(request, 'professor/home.html', {
+        'professores': professores,
+        'titulos': titulos,
+        'sexos': sexos,
+    })
 
-#login requerido
+# login requerido
+
+
 @login_required(login_url='/login/')
 # função de cadastro de professor
 def cadastrar(request):
     if request.method == 'GET':
-        return redirect('professor:home')
+        # pegando os professores do banco
+        professores = Professor.objects.all()
+        # pegando os titulos do banco para popular a lista de seleção de titulos
+        titulos = Titulacao.objects.all()
+        # pegando as descrições de sexos do banco para popular a lista de seleção de sexo
+        sexos = Sexo.objects.all()
+        return render(request, 'professor/cadastrar.html', {
+                      'professores': professores,
+                      'titulos': titulos,
+                      'sexos': sexos,
+                      })
     else:
         nome = request.POST.get("nome")
         email = request.POST.get("email")
@@ -44,9 +58,9 @@ def cadastrar(request):
             # criando um objeto professor
             professor = Professor.objects.create(
                 # atribuindo os dados vindos do formularios ao objeto professor
-                nome=nome,             
-                email = email,                   
-                titulacao_id = titulacao_id,
+                nome=nome,
+                email=email,
+                titulacao_id=titulacao_id,
                 sexo_id=sexo_id,
                 telefone=telefone,
                 endereco=endereco)
@@ -56,15 +70,17 @@ def cadastrar(request):
             messages.success(
                 request, f"Professor {nome} cadastrado(a) com sucesso!")
             # redirecionando para a home do professor
-            return redirect('professor:home')
+            return render(request, 'professor/cadastrar.html')
         # Capturando uma excecao
         except Exception as erro:
             # imprimindo o erro
             messages.error(request, f"Erro: {erro}")
             # redirecionando para a home do professor
-            return redirect('professor:home')
-        
+            return render(request, 'professor/cadastrar.html')
+
 # funcao buscar da página buscar
+
+
 @login_required(login_url='/login/')
 def buscar(request):
     query = request.GET.get('q')  # pega o termo digitado
@@ -81,6 +97,7 @@ def buscar(request):
         'professores': professores,
         'query': query
     })
+
 
 @login_required(login_url='/login/')
 # função para listar/buscar professors
@@ -101,19 +118,20 @@ def listar(request):
         'query': query
     })
 
+
 @login_required(login_url='/login/')
 def editar(request, id):
     try:
         # resgatando do banco o professor cujo id é igual ao id enviado via template
         professor = Professor.objects.get(id=id)
-        # pegando os titulos do banco para popular a lista de seleção de titulos 
+        # pegando os titulos do banco para popular a lista de seleção de titulos
         titulos = Titulacao.objects.all()
         # pegando todos os sexos do banco
         sexos = Sexo.objects.all()
         # renderizando a pagina professor/editar.html juntamente com o formulario preenchido com os dados do professor a ser atualizado
         return render(request, "professor/editar.html", {
             "professor": professor,
-            "titulos":titulos,
+            "titulos": titulos,
             "sexos": sexos
         })
     # capturando excecao e printando na tela
