@@ -33,8 +33,8 @@ def cadastrar(request):
     # se for GET renderiza o formulário
     if request.method == "GET":
         return render(request, 'curso/cadastrar.html', {
-             'professores': professores,            
-             'cursos': cursos,    
+            'professores': professores,
+            'cursos': cursos,
         })
     # se os dados foram enviados via POST
     else:
@@ -96,7 +96,7 @@ def listar(request):
     })
 
 
-def editar(request,id):
+def editar(request, id):
     try:
         # pegando todos os cursos do banco
         curso = Curso.objects.get(id=id)
@@ -106,7 +106,7 @@ def editar(request,id):
         return render(request, "curso/editar.html", {
             "curso": curso,
             "cursos": cursos,
-            'professores':professores,
+            'professores': professores,
         })
     # capturando excecao e printando na tela
     except Exception as erro:
@@ -117,7 +117,8 @@ def editar(request,id):
             "professores": professores,
         })
 
-def update(request,id):
+
+def update(request, id):
     # resgatando dados do formulario da página editar
     nome = request.POST.get("nome")
     carga_horaria = request.POST.get("carga_horaria")
@@ -128,7 +129,7 @@ def update(request,id):
         # atualizando os dados do banco com os dados vindos do formulário
         curso.nome = nome
         curso.carga_horaria = carga_horaria
-        curso.professor_id = professor_id  
+        curso.professor_id = professor_id
         # salvando os novos dados no banco
         curso.save()
         # acrescentando a mensagem de sucesso no objeto messages (isso será recuperado e exibido na página html)
@@ -144,5 +145,20 @@ def update(request,id):
         return redirect('curso:home')
 
 
-def excluir(request):
-    pass
+def excluir(request, id):
+    try:
+        # pegar o aluno específico do banco
+        curso = Curso.objects.get(id=id)
+        # apagar do banco
+        curso.delete()
+        # redirecionando para a home
+        messages.warning(
+            request, f"Curso {curso.nome} removido(a) com sucesso!"
+        )
+        # redirecionando para a home do aluno
+        return redirect('curso:home')
+    # capturando exceção
+    except Exception as erro:
+        # imprimindo erro
+        messages.error(request, f"Erro: {erro}")
+        return redirect('curso:home')
