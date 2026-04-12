@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}SISIFBA - Sistema Acadêmico{% endblock %}
+{% block content %}
+{% load static %}
+<script src="{% static 'js/funcoes.js' %}"></script>
+<body>
+    <h1>Edição de Usuário</h1>     
+    <hr>       
+    <form action="{% url 'usuario:update' usuario.id %}" method="post" class="form-control">
+        {% csrf_token %} 
+        <label>Nome e Sobrenome</label>
+        <br>       
+        <input name="first_name" id="first_name" value="{{usuario.first_name}}"  required = "true" placeholder="Informe nome e sobrenome">
+        <br>
+        <label>Nome de Usuário</label>
+        <br>       
+        <input name="username" id="username" value="{{usuario.username}}"  required = "true" placeholder="Informe o nome do usuário">
+        <br>       
+        <label>Email</label>
+        <br>
+        <input type="email" name="email" id="email" value="{{usuario.email}}" placeholder="Informe um email válido">
+        <br>
+        <label>Senha</label>
+        <br>
+        <input name="password" id="password" type="password"> 
+        <br>   
+        <label>Admin?</label>
+        <br>       
+        <select id="is_staff" name="is_staff" required = "true">
+                <option value="">Escolha uma opção</option>                    
+                    <option value="True"{% if usuario.is_staff == True %}selected{% endif %}>Sim</option>
+                    <option value="False"{% if usuario.is_staff == False %}selected{% endif %}>Não</option>
+                </option>
+        </select> 
+        <br>
+        <label>Ativo?</label>
+        <br>
+        <select id="is_active" name="is_active" required = "true">
+                <option value="">Escolha uma opção</option>                    
+                    <option value="True"{% if usuario.is_active == True %}selected{% endif %}>Sim</option>
+                    <option value="False"{% if usuario.is_active == False %}selected{% endif %}>Não</option>
+                </option>
+        </select> 
+        <br>
+        <br>
+        <button type="submit" id="btnSalvar" class="btn btn-success">Salvar</button>
+        <br>
+    </form>      
+    <hr> 
+{% endblock %}
+

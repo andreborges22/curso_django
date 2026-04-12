@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% block title %}SISIFBA - Sistema Acadêmico{% endblock %}
 {% block content %}
+{% load static %}
+<script src="{% static 'js/funcoes.js' %}"></script>
 <body>
     <h1>Cadastro de Usuários</h1>     
     <hr>       
@@ -12,17 +14,38 @@
         <br>
         <label>Nome de Usuário</label>
         <br>       
-        <input name="username" id="username" required = "true" placeholder="Informe o nome do usuário">
+        <input name="username" id="username" onkeyup="verificarUsername()" required = "true" placeholder="Informe o nome do usuário">
+        <span id="mensagem"></span>
         <br>       
         <label>Email</label>
         <br>
-        <input type="email" name="email" required = "true" id="email" placeholder="Informe um email válido">
+        <input type="email" name="email" id="email" onkeyup="verificarEmail()" required placeholder="Informe um email válido">
+        <span id="mensagem_email"></span>
         <br>
         <label>Senha</label>
         <br>
         <input name="senha" id="senha" type="password" required = "true"> 
         <br>   
-        <button type="submit" class="btn btn-success">Salvar</button>
+        <label>Admin?</label>
+        <br>
+        <select id="is_staff" name="is_staff" required = "true">
+                <option value="">Escolha uma opção</option>                    
+                    <option value="True"{% if usuario.is_staff == True %}selected{% endif %}>Sim</option>
+                    <option value="False"{% if usuario.is_staff == False %}selected{% endif %}>Não</option>
+                </option>
+        </select> 
+        <br>   
+        <label>Ativo?</label>
+        <br>
+        <select id="is_active" name="is_active" required = "true">
+                <option value="">Escolha uma opção</option>                    
+                    <option value="True"{% if usuario.is_staff == True %}selected{% endif %}>Sim</option>
+                    <option value="False"{% if usuario.is_staff == False %}selected{% endif %}>Não</option>
+                </option>
+        </select> 
+        <br> 
+        <br> 
+        <button type="submit" id="btnSalvar" class="btn btn-success" disabled>Salvar</button>
         <br>
     </form>      
     <hr>
@@ -33,7 +56,9 @@
         <th scope="col">ID</th>
         <th scope="col">Nome</th>   
         <th scope="col">Usuário</th>     
-        <th scope="col">Email</th>                
+        <th scope="col">Email</th>    
+        <th scope="col">Admin?</th> 
+        <th scope="col">Ativo?</th>            
         <th scope="col">Editar</th>
         <th scope="col">Deletar</th>
         </tr>
@@ -43,9 +68,11 @@
               {% for usuario in usuarios %}  
                     <tr>
                         <td>{{usuario.id}}</td> 
-                        <td>{{usuario.nome}}</td>
-                        <td>{{usuario.usuario}}</td>
+                        <td>{{usuario.first_name}}</td>
+                        <td>{{usuario.username}}</td>
                         <td>{{usuario.email}}</td>
+                        <td>{{usuario.is_staff}}</td>
+                        <td>{{usuario.is_active}}</td>
                         <td><a href="{% url 'usuario:editar' usuario.id %}"><button class="btn btn-outline-success me-2" name="editar" id="editar" type="button">Editar</button></a></td>
                         <td><a href="{% url 'usuario:excluir' usuario.id %}"><button name="excluir" id="excluir" class="btn btn-outline-danger">Excluir</button></a></td>                        
                         

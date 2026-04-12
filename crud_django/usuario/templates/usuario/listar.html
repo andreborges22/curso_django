@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title %}SISIFBA - Sistema Acadêmico{% endblock %}
+{% block content %}
+{% load static %}
+<script src="{% static 'js/funcoes.js' %}"></script>
+<body>     
+    <hr>
+    <h1>Lista de Usuários</h1>  
+    <form method="GET" class="mb-3">
+            <div class="input-group">
+                <input 
+                type="text" 
+                name="q" 
+                class="form-control" 
+                placeholder="Buscar por nome ou email..."
+                value="{{ query|default:'' }}"
+                >
+                <button class="btn btn-primary" type="submit">Buscar</button>
+            </div>
+        </form>
+
+    {% if usuarios %}  
+   <table class="table">
+    <thead>
+        <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Nome</th>   
+        <th scope="col">Usuário</th>     
+        <th scope="col">Email</th>                
+        <th scope="col">Admin?</th> 
+        <th scope="col">Ativo?</th> 
+        <th scope="col">Editar</th>
+        <th scope="col">Deletar</th>
+        </tr>
+    </thead>
+        <tbody>
+            <tr>      
+              {% for usuario in usuarios %}  
+                    <tr>
+                        <td>{{usuario.id}}</td> 
+                        <td>{{usuario.first_name}}</td>
+                        <td>{{usuario.username}}</td>
+                        <td>{{usuario.email}}</td>
+                        <td>{{usuario.is_staff}}</td>
+                        <td>{{usuario.is_active}}</td>
+                        <td><a href="{% url 'usuario:editar' usuario.id %}"><button class="btn btn-outline-success me-2" name="editar" id="editar" type="button">Editar</button></a></td>
+                        <td><a href="{% url 'usuario:excluir' usuario.id %}"><button name="excluir" id="excluir" class="btn btn-outline-danger">Excluir</button></a></td>                        
+                        
+                    </tr>
+              {% endfor %}
+            </tr>        
+        </tbody>
+    </table>  
+ {% else %}
+        <div class="alert alert-warning">
+            Nenhum usuário encontrado.
+        </div>
+    {% endif %}
+</body>  
+{% endblock %}
