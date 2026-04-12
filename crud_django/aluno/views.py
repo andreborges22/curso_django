@@ -47,7 +47,7 @@ def buscar(request):
     if query:
         alunos = alunos.filter(
             Q(nome__icontains=query) |
-            Q(email__icontains=query)
+            Q(email__icontains=query)            
         )
 
     return render(request, 'aluno/buscar.html', {
