@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}SISIFBA - Sistema Acadêmico{% endblock %}
+{% block content %}
+  <body>
+    <h1>Edição de Alunos</h1>
+    <hr>
+    <form action="{% url 'aluno:update' aluno.id %}" method="post" class="form-control">
+        {% csrf_token %} 
+        {{form.as_p}} 
+        <br>   
+        <button type="submit" class="btn btn-outline-success me-2">Salvar</button>    
+        <a href="{% url 'aluno:home' %}" class="btn btn-outline-danger">Cancelar</a>                   
+        <br>
+    </form>
+    <hr>    
+</body>
+{% endblock %}
