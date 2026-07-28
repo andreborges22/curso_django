@@ -1,0 +1,70 @@
+Abaixo está o passo a passo completo utilizando Waitress (um servidor WSGI de produção para Windows) e NSSM (para rodar a aplicação como um Serviço do Windows em segundo plano).
+
+Passo 1: Instalar o Waitress (Servidor WSGI para Windows)
+Com o seu ambiente virtual (venv) ativado no terminal do projeto:
+
+Bash
+pip install waitress
+Passo 2: Testar a aplicação com o Waitress
+Rode o comando abaixo no terminal para validar se a aplicação carrega pelo servidor WSGI (substitua project_fase2_inovit pelo nome exato da pasta do seu wsgi.py):
+
+Bash
+waitress-serve --port=8000 project_fase2_inovit.wsgi:application
+Acesse no seu navegador: http://localhost:8000. Se o sistema carregar perfeitamente, pressione Ctrl + C no terminal para encerrar o teste.
+
+Passo 3: Coletar os Arquivos Estáticos
+Como servidores de produção não servem CSS/JS/Imagens dinamicamente como o servidor de desenvolvimento do Django, execute:
+
+Bash
+python manage.py collectstatic --noinput
+(Como você já possui a variável STATIC_ROOT = BASE_DIR / 'staticfiles' configurada no seu settings.py, os arquivos serão unificados na pasta staticfiles).
+
+Passo 4: Transformar o Django em um Serviço do Windows (Início Automático)
+Para que o sistema continue rodando mesmo que ninguém faça login na máquina ou se o computador for reiniciado:
+
+Baixe o utilitário leve NSSM (Non-Sucking Service Manager) no site oficial (nssm.cc/download).
+
+Extraia o executável nssm.exe (pasta win64) para uma pasta no seu computador (ex: C:\nssm\).
+
+Abra o Prompt de Comando (CMD) como Administrador e execute:
+
+DOS
+C:\nssm\nssm.exe install DjangoInovitService
+Uma interface gráfica abrirá. Preencha os campos exatamente assim:
+
+Path: O caminho do python.exe DENTRO DO SEU VENV.
+
+Exemplo: C:\Users\andre\fase_2\inovit\venv\Scripts\python.exe
+
+Startup directory: A pasta raiz do projeto (onde fica o manage.py).
+
+Exemplo: C:\Users\andre\fase_2\inovit
+
+Arguments: Os argumentos para iniciar o waitress:
+
+-m waitress --port=8000 project_fase2_inovit.wsgi:application
+
+Clique em Install service.
+
+Passo 5: Iniciar o Serviço no Windows
+No mesmo terminal de Administrador, inicie o serviço criado:
+
+DOS
+net start DjangoInovitService
+Pronto! A aplicação estará rodando silenciosamente em segundo plano na porta 8000.
+
+Passo 6: Liberar o Acesso na Rede Local (Firewall do Windows)
+Como o seu settings.py já possui a função dinâmica que captura o IP da máquina e adiciona ao ALLOWED_HOSTS e CSRF_TRUSTED_ORIGINS, você só precisa abrir a porta no Firewall do Windows para que outros computadores da rede consigam acessar:
+
+Abra o PowerShell como Administrador.
+
+Execute o comando abaixo para criar uma regra de entrada no Firewall:
+
+PowerShell
+New-NetFirewallRule -Name "Django_8000" -DisplayName "Servidor Django (Porta 8000)" -Direction Inbound -Protocol TCP -LocalPort 8000 -Action Allow
+Como os outros usuários da rede vão acessar?
+A partir de agora, qualquer pessoa conectada à mesma rede local poderá acessar o sistema digitando no navegador:
+
+Plaintext
+http://[IP-DA-MAQUINA-SERVIDORA]:8000
+(Exemplo: [http://192.168.1.150:8000](http://192.168.1.150:8000))
